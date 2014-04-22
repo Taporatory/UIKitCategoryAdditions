@@ -37,19 +37,21 @@ static char CANCEL_IDENTIFER;
     return objc_getAssociatedObject(self, &CANCEL_IDENTIFER);
 }
 
-
-+ (UIAlertView*) alertViewWithTitle:(NSString*) title                    
-                    message:(NSString*) message 
-          cancelButtonTitle:(NSString*) cancelButtonTitle
-          otherButtonTitles:(NSArray*) otherButtons
-                  onDismiss:(DismissBlock) dismissed                   
-                   onCancel:(CancelBlock) cancelled {
-        
++ (UIAlertView*) alertViewWithTitle:(NSString*) title
+                            message:(NSString*) message
+                              style:(UIAlertViewStyle)style
+                  cancelButtonTitle:(NSString*) cancelButtonTitle
+                  otherButtonTitles:(NSArray*) otherButtons
+                          onDismiss:(DismissBlock) dismissed
+                           onCancel:(CancelBlock) cancelled {
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                     message:message
                                                    delegate:[self class]
                                           cancelButtonTitle:cancelButtonTitle
                                           otherButtonTitles:nil];
+    
+    alert.alertViewStyle = style;
     
     [alert setDismissBlock:dismissed];
     [alert setCancelBlock:cancelled];
@@ -59,6 +61,16 @@ static char CANCEL_IDENTIFER;
     
     [alert show];
     return [alert autorelease];
+}
+
++ (UIAlertView*) alertViewWithTitle:(NSString*) title                    
+                    message:(NSString*) message 
+          cancelButtonTitle:(NSString*) cancelButtonTitle
+          otherButtonTitles:(NSArray*) otherButtons
+                  onDismiss:(DismissBlock) dismissed                   
+                   onCancel:(CancelBlock) cancelled {
+    
+    return [UIAlertView alertViewWithTitle:title message:message style:UIAlertViewStyleDefault cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtons onDismiss:dismissed onCancel:cancelled];
 }
 
 + (UIAlertView*) alertViewWithTitle:(NSString*) title 
